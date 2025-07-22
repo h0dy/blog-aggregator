@@ -19,7 +19,9 @@ func (c *commands) run(st *state, cmd command) error {
 	if !ok  {
 		return errors.New("the given command isn't registered")
 	}
-	cmdFunc(st, cmd) // run the command
+	if err := cmdFunc(st, cmd); err != nil {
+		return err
+	} // run the command
 	return nil
 }
 

@@ -1,26 +1,37 @@
 package main
 
 import (
-	"fmt"
+	"database/sql"
 	"log"
 	"os"
 
 	"github.com/h0dy/blog-aggregator/internal/config"
+	"github.com/h0dy/blog-aggregator/internal/database"
+	_ "github.com/lib/pq"
 )
 
-// state struct holds a pointer to a config
+// state struct holds a pointer to a config and a pointer to a database
 type state struct {
+	db  *database.Queries
 	cfg *config.Config
 }
 
 func main() {
 	cfg, err := config.ReadConfigFile()
 	if err != nil {
-		fmt.Printf("error reading config file: %v\n", err)
+		log.Fatalf("error reading config file: %v\n", err)
 	}
 
+	db, err := sql.Open("postgres", cfg.DbURL)
+	if err != nil {
+		log.Fatalf("error in connecting to the database (PostgreSQL): %v\n", err)
+	}
+	defer db.Close()
+	dbQueries := database.New(db)
+	
 	userState := &state{
 		cfg: &cfg,
+		db: dbQueries,
 	}
 
 	commands := commands{
@@ -28,14 +39,12 @@ func main() {
 	}
 	
 	commands.register("login", handlerLogin)
+	commands.register("register", handlerRegister)
+	commands.register("reset", handlerReset)
+	commands.register("users", handlerListUsers)
 
-	if len(os.Args) < 2 {
-		fmt.Println("error: not enough arguments ")
-		os.Exit(1)
-	}
-	if len(os.Args) < 3 {
-		fmt.Println("error: username is required for login command")
-		os.Exit(1)
+	if len(os.Args) < 2 { 
+		log.Fatal("Usage: cli <command> [args...]")
 	}
 
 	cmdName := os.Args[1]
@@ -47,5 +56,4 @@ func main() {
 	}); err != nil {
 		log.Fatal(err)
 	}
-	fmt.Printf("config file: %v\n", cfg)
 }
