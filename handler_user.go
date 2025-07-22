@@ -18,8 +18,7 @@ func handlerLogin(st *state, cmd command) error {
 
 	user, err := st.db.GetUser(context.Background(), username)
 	if err != nil {
-		fmt.Println("error in handlerLogin")
-		return fmt.Errorf("\nerror in db.GetUser: %v", err) 
+		return fmt.Errorf("\ncouldn't get the user: %v", err) 
 	}
 
 	if err := st.cfg.SetUser(user.Name); err != nil {
@@ -44,7 +43,7 @@ func handlerRegister(st *state, cmd command) error {
 		Name:      username,
 	})
 	if err != nil {
-		return fmt.Errorf("\nerror in db.CreateUser: %v", err)
+		return fmt.Errorf("\ncouldn't create user: %v", err)
 	}
 
 	if err := st.cfg.SetUser(user.Name); err != nil {
@@ -58,7 +57,7 @@ func handlerRegister(st *state, cmd command) error {
 func handlerListUsers(st *state, cmd command) error {
 	users, err := st.db.GetUsers(context.Background())
 	if err != nil {
-		return fmt.Errorf("\nerror in db.GetUsers: %v", err)
+		return fmt.Errorf("\ncouldn't get the user: %v", err)
 	}
 	for _, user := range users {
 		if st.cfg.CurrentUsername == user.Name {
