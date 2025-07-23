@@ -13,7 +13,7 @@ func handlerFollowFeed(st *state, cmd command, user database.User) error {
 	if len(cmd.Arg) < 1 {
 		return fmt.Errorf("\nusage: %s <feed url>", cmd.Name)
 	}
-	
+
 	feedURL := cmd.Arg[0]
 	feed, err := st.db.GetFeedByURL(context.Background(), feedURL)
 	if err != nil {
@@ -42,12 +42,35 @@ func handlerFollowingFeeds(st *state, cmd command, user database.User) error {
 	}
 
 	fmt.Printf("%v follows:\n", user.Name)
+	if len(followFeeds) < 1 {
+		fmt.Println("you aren't following any feed, make sure to follow some to list them")
+	}
 	for _, f := range followFeeds {
 		fmt.Println("===========================")
 		fmt.Printf("Feed name: %v\n", f.FeedName)
 		fmt.Printf("Feed URL: %v\n", f.FeedUrl)
 	}
 	
+	return nil
+}
+
+func handlerUnfollowFeed(st *state, cmd command, user database.User) error {
+	if len(cmd.Arg) < 1 {
+		return fmt.Errorf("\nusage %v <feed url>", cmd.Name)
+	}
+	feedURL := cmd.Arg[0]
+	feed, err := st.db.GetFeedByURL(context.Background(), feedURL)
+	if err != nil {
+		return fmt.Errorf("\ncouldn't get a feed by url: %v", err)
+	}
+
+	if err := st.db.UnfollowFeed(context.Background(), database.UnfollowFeedParams{
+		UserID: user.ID,
+		FeedID: feed.ID,
+	}); err != nil {
+		return fmt.Errorf("\ncouldn't unfollow a feed: %v", err)
+	}
+	fmt.Printf("%v unfollowed %v successfully", user.Name, feed.Name)
 	return nil
 }
 
