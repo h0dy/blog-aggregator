@@ -9,13 +9,9 @@ import (
 	"github.com/h0dy/blog-aggregator/internal/database"
 )
 
-func handlerAddFeed(st *state, cmd command) error {
+func handlerAddFeed(st *state, cmd command, user database.User) error {
 	if len(cmd.Arg) < 2 {
 		return fmt.Errorf("\nusage: %s <feed name> <feed url>", cmd.Name)
-	}
-	user, err := st.db.GetUser(context.Background(), st.cfg.CurrentUsername)
-	if err != nil {
-		return err
 	}
 
 	feedName := cmd.Arg[0]

@@ -9,20 +9,15 @@ import (
 	"github.com/h0dy/blog-aggregator/internal/database"
 )
 
-func handlerFollowFeed(st *state, cmd command) error {
+func handlerFollowFeed(st *state, cmd command, user database.User) error {
 	if len(cmd.Arg) < 1 {
 		return fmt.Errorf("\nusage: %s <feed url>", cmd.Name)
 	}
-
+	
 	feedURL := cmd.Arg[0]
 	feed, err := st.db.GetFeedByURL(context.Background(), feedURL)
 	if err != nil {
 		return fmt.Errorf("\ncouldn't get feed by url: %w", err)
-	}
-
-	user, err := st.db.GetUser(context.Background(), st.cfg.CurrentUsername)
-	if err != nil {
-		return err
 	}
 
 	feedFollowed, err := st.db.CreateFeedFollow(context.Background(), database.CreateFeedFollowParams{
@@ -40,13 +35,13 @@ func handlerFollowFeed(st *state, cmd command) error {
 	return nil
 }
 
-func handlerFollowingFeeds(st *state, cmd command)error {
-	followFeeds, err := st.db.GetFeedFollowsForUser(context.Background(), st.cfg.CurrentUsername)
+func handlerFollowingFeeds(st *state, cmd command, user database.User) error {
+	followFeeds, err := st.db.GetFeedFollowsForUser(context.Background(), user.ID)
 	if err != nil {
 		return fmt.Errorf("\ncouldn't get user's following feeds: %v", err)
 	}
 
-	fmt.Printf("%v follows:\n", st.cfg.CurrentUsername)
+	fmt.Printf("%v follows:\n", user.Name)
 	for _, f := range followFeeds {
 		fmt.Println("===========================")
 		fmt.Printf("Feed name: %v\n", f.FeedName)

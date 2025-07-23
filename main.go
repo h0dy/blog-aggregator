@@ -1,6 +1,7 @@
 package main
 
 import (
+	"context"
 	"database/sql"
 	"log"
 	"os"
@@ -43,10 +44,10 @@ func main() {
 	commands.register("reset", handlerReset)
 	commands.register("users", handlerListUsers)
 	commands.register("agg", handlerFeed)
-	commands.register("addfeed", handlerAddFeed)
+	commands.register("addfeed", middlewareLoggedIn(handlerAddFeed))
 	commands.register("feeds", handlerListFeeds)
-	commands.register("follow", handlerFollowFeed)
-	commands.register("following", handlerFollowingFeeds)
+	commands.register("follow", middlewareLoggedIn(handlerFollowFeed))
+	commands.register("following", middlewareLoggedIn(handlerFollowingFeeds))
 
 	if len(os.Args) < 2 { 
 		log.Fatal("Usage: cli <command> [args...]")
@@ -60,5 +61,16 @@ func main() {
 		Arg: cmdArg,
 	}); err != nil {
 		log.Fatal(err)
+	}
+}
+
+func middlewareLoggedIn(handler func(st *state, cmd command, user database.User) error) func(*state, command) error {
+	
+	return func(st *state, cmd command)  error {
+		user, err := st.db.GetUser(context.Background(), st.cfg.CurrentUsername)
+		if err != nil {
+			return err
+		}
+		return handler(st, cmd, user)
 	}
 }
