@@ -11,3 +11,6 @@ feeds.created_at,
 feeds.updated_at,
 users.name AS created_by FROM feeds
 JOIN users ON feeds.user_id = users.id;
+
+-- name: GetFeedByURL :one 
+SELECT * FROM feeds WHERE url = $1;
