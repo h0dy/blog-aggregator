@@ -85,3 +85,4 @@ go run . <command> <arg>
 | following | **None**                         | list all the feeds that the current user follows                              |
 | unfollow  | feed-url                         | to unfollow a feed (you have to loggedIn)                                     |
 | browse    | posts-limit (optional)           | lists all the posts that have been aggregated (make sure aggregate the posts) |
+
