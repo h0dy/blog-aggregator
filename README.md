@@ -72,17 +72,16 @@ go run . <command> <arg>
 
 #### Command list
 
-| command   | argument\s                       | description                                                                   |
-| --------- | -------------------------------- | ----------------------------------------------------------------------------- |
-| register  | username                         | to register to gator                                                          |
-| login     | username                         | to login to gator (you have to be registered)                                 |
-| reset     | **None**                         | to clear the database (good for testing)                                      |
-| users     | **None**                         | list all the users                                                            |
-| agg       | time between requests (e.g. 30s) | time between each request to aggregate posts and save them                    |
-| addfeed   | feed-name feed-url               | to create a new feed in gator (you have to loggedIn)                          |
-| feeds     | **None**                         | list all the feeds that exists                                                |
-| follow    | feed-url                         | to follow a feed if it exists (you have to loggedIn)                          |
-| following | **None**                         | list all the feeds that the current user follows                              |
-| unfollow  | feed-url                         | to unfollow a feed (you have to loggedIn)                                     |
-| browse    | posts-limit (optional)           | lists all the posts that have been aggregated (make sure aggregate the posts) |
-
+| command   | argument\s                       | description                                                                                    |
+| --------- | -------------------------------- | ---------------------------------------------------------------------------------------------- |
+| register  | username                         | to register to gator                                                                           |
+| login     | username                         | to login to gator (you have to be registered)                                                  |
+| reset     | **None**                         | to clear the database (good for testing)                                                       |
+| users     | **None**                         | list all the users                                                                             |
+| agg       | time between requests (e.g. 30s) | time between each request to aggregate posts and save them                                     |
+| addfeed   | feed-name feed-url               | to create a new feed in gator (you have to loggedIn)                                           |
+| feeds     | **None**                         | list all the feeds that exists                                                                 |
+| follow    | feed-url                         | to follow a feed if it exists (you have to loggedIn)                                           |
+| following | **None**                         | list all the feeds that the current user follows                                               |
+| unfollow  | feed-url                         | to unfollow a feed (you have to loggedIn)                                                      |
+| browse    | posts-limit (optional)           | lists 2 or more posts from the feeds that have been aggregated (make sure you aggregate posts) |

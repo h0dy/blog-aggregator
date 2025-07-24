@@ -8,6 +8,7 @@ import (
 	"github.com/h0dy/blog-aggregator/internal/database"
 )
 
+// handlerPosts func lists aggregated posts, with optional limiting
 func handlerPosts(st *state, cmd command, user database.User) error {
 	var postLimit int32 = 2
 	if len(cmd.Arg) > 1 {
@@ -22,7 +23,7 @@ func handlerPosts(st *state, cmd command, user database.User) error {
 		Limit: postLimit,
 	})
 	if len(posts) < 1 {
-		fmt.Println("There are no posts for user: %v", user.Name)
+		fmt.Printf("There are no posts for user: %v", user.Name)
 	}
 
 	if err != nil {

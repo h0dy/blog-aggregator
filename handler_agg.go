@@ -10,6 +10,7 @@ import (
 	"github.com/h0dy/blog-aggregator/internal/database"
 )
 
+// handlerFeed func retrieves and aggregates posts from all feeds followed by the current user
 func handlerFeed(st *state, cmd command)error {
 	if len(cmd.Arg) < 1 {
 		return fmt.Errorf("\nusage %v <time between requests>", cmd.Name)
@@ -41,6 +42,7 @@ func scrapeFeeds(st *state) {
 	scrapeFeed(st.db, nextFeed)
 }
 
+// scrapeFeed func scrapes posts from the provided feed 
 func scrapeFeed(db *database.Queries, feed database.Feed) {
 	if err := db.MarkFeedFetched(context.Background(), feed.ID); err != nil {
 		fmt.Printf("\ncouldn't mark the feed as fetched: %v", err)

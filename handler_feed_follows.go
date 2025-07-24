@@ -9,6 +9,7 @@ import (
 	"github.com/h0dy/blog-aggregator/internal/database"
 )
 
+// handlerFollowFeed func lets the user follow a feed
 func handlerFollowFeed(st *state, cmd command, user database.User) error {
 	if len(cmd.Arg) < 1 {
 		return fmt.Errorf("\nusage: %s <feed url>", cmd.Name)
@@ -35,6 +36,7 @@ func handlerFollowFeed(st *state, cmd command, user database.User) error {
 	return nil
 }
 
+// handlerFollowingFeeds lists all feeds followed by the user
 func handlerFollowingFeeds(st *state, cmd command, user database.User) error {
 	followFeeds, err := st.db.GetFeedFollowsForUser(context.Background(), user.ID)
 	if err != nil {
@@ -54,6 +56,7 @@ func handlerFollowingFeeds(st *state, cmd command, user database.User) error {
 	return nil
 }
 
+// handlerFollowFeed func lets the user unfollow a feed
 func handlerUnfollowFeed(st *state, cmd command, user database.User) error {
 	if len(cmd.Arg) < 1 {
 		return fmt.Errorf("\nusage %v <feed url>", cmd.Name)

@@ -54,6 +54,7 @@ func handlerRegister(st *state, cmd command) error {
 	return nil
 }
 
+// handlerListUsers func print all the users in the console
 func handlerListUsers(st *state, cmd command) error {
 	users, err := st.db.GetUsers(context.Background())
 	if err != nil {
@@ -72,7 +73,7 @@ func handlerListUsers(st *state, cmd command) error {
 func logUser(user database.User) {
 	fmt.Printf("USER ID: %v\nUSER Name:%v\n", user.ID, user.Name)
 }
-
+// handlerLogUser func log current user
 func handlerLogUser(st *state, cmd command, user database.User)error {
 	logUser(user)
 	return nil

@@ -9,6 +9,7 @@ import (
 	"github.com/h0dy/blog-aggregator/internal/database"
 )
 
+// handlerAddFeed func creates a new feed associated with the user and follows it
 func handlerAddFeed(st *state, cmd command, user database.User) error {
 	if len(cmd.Arg) < 2 {
 		return fmt.Errorf("\nusage: %s <feed name> <feed url>", cmd.Name)
@@ -46,6 +47,7 @@ func handlerAddFeed(st *state, cmd command, user database.User) error {
 	return nil
 }
 
+// handlerListFeeds func lists all the feeds that have been created
 func handlerListFeeds(st *state, cmd command) error {
 	feeds, err := st.db.GetAllFeeds(context.Background())
 	if err != nil {
