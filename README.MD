@@ -1,14 +1,14 @@
-# gator
+# Gator
 
 This is a cli blog aggregator written in Go (second project in go)
-it supports multiple users and each user has it's own feeds
+
+It supports multiple users, each with their own feeds
 
 In this project, I learned:
 
--   How to work with postgreSQL in Go
--   How to work with [sqlc](https://sqlc.dev/) (tool to compile SQL to type-safe code)
--   How to work with [goose](https://github.com/pressly/goose) (tool to migrate database and manage schema)
--   How to implement caching
+-   Working postgreSQL in Go
+-   Using [sqlc](https://sqlc.dev/) to generate type-safe Go code from SQL queries
+-   Managing database migrations with [goose](https://github.com/pressly/goose)
 
 ---
 
@@ -29,7 +29,21 @@ cd blog-aggregator
 go mod tidy
 ```
 
-### 3. Set up the config file and database connection string
+### 3. Build the Project (optional)
+
+```bash
+go build
+```
+
+or
+
+```bash
+go install
+```
+
+This compile the code into a binary file
+
+### 4. Set up the config file and database connection string
 
 create a config file in your home directory called "~/.gatorconfig.json" with the following content
 
@@ -42,7 +56,15 @@ create a config file in your home directory called "~/.gatorconfig.json" with th
 
 this will be use to keep track of the current user, since this project can have multiple users
 
-### 4. Run the project
+### 5. Run the project
+
+if you compile the project you can just simply run the binary file
+
+```bash
+./gator <command> <arg>
+```
+
+Or, run it directly without building:
 
 ```bash
 go run . <command> <arg>
