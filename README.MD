@@ -19,8 +19,8 @@ Make sure you have [**Go**](https://go.dev/doc/install) and [**PostgreSQL**](htt
 ### 1. Clone the repository
 
 ```bash
-git clone https://github.com/h0dy/blog-aggregator.git
-cd blog-aggregator
+git clone https://github.com/h0dy/gator.git
+cd gator
 ```
 
 ### 2. Install dependencies
