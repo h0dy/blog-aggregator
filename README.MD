@@ -70,6 +70,8 @@ Or, run it directly without building:
 go run . <command> <arg>
 ```
 
+#### Command list
+
 | command   | argument\s                       | description                                                                   |
 | --------- | -------------------------------- | ----------------------------------------------------------------------------- |
 | register  | username                         | to register to gator                                                          |
