@@ -52,7 +52,7 @@ func handlerListFeeds(st *state, cmd command) error {
 		return fmt.Errorf("\ncouldn't get feeds: %v", err)
 	}
 	if len(feeds) < 1 {
-		fmt.Println("No feeds found ☹️\n use addfeed <name> <url> command to add feeds.")
+		fmt.Println("No feeds found ☹️\nuse addfeed <name> <url> command to add feeds.")
 		return nil
 	}
 	

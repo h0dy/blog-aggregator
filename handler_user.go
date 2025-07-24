@@ -11,7 +11,7 @@ import (
 
 // handlerLogin func is for login cmd, it sets the given user to the config and check if the user is in the database
 func handlerLogin(st *state, cmd command) error {
-	if cmd.Arg == nil {
+	if len(cmd.Arg) < 1 {
 		return fmt.Errorf("\nusage: %s <name>", cmd.Name)
 	}
 	username := cmd.Arg[0]
@@ -71,4 +71,15 @@ func handlerListUsers(st *state, cmd command) error {
 
 func logUser(user database.User) {
 	fmt.Printf("USER ID: %v\nUSER Name:%v\n", user.ID, user.Name)
+}
+
+func handlerLogUser(st *state, cmd command)error {
+	user, err := st.db.GetUser(context.Background(), st.cfg.CurrentUsername)
+
+	if err != nil {
+		return fmt.Errorf("\nno user is logged in: %v", err)
+	}
+	logUser(user)
+	
+	return nil
 }
