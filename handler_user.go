@@ -73,13 +73,7 @@ func logUser(user database.User) {
 	fmt.Printf("USER ID: %v\nUSER Name:%v\n", user.ID, user.Name)
 }
 
-func handlerLogUser(st *state, cmd command)error {
-	user, err := st.db.GetUser(context.Background(), st.cfg.CurrentUsername)
-
-	if err != nil {
-		return fmt.Errorf("\nno user is logged in: %v", err)
-	}
+func handlerLogUser(st *state, cmd command, user database.User)error {
 	logUser(user)
-	
 	return nil
 }

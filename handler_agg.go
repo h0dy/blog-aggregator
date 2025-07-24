@@ -6,6 +6,7 @@ import (
 	"log"
 	"time"
 
+	"github.com/google/uuid"
 	"github.com/h0dy/blog-aggregator/internal/database"
 )
 
@@ -53,7 +54,24 @@ func scrapeFeed(db *database.Queries, feed database.Feed) {
 	}
 	
 	for _, item := range feedData.Channel.Item {
-		fmt.Printf("Feed channel title: %v\n", item.Title)
+		pubTime, _ := time.Parse(time.RFC1123Z, item.PubDate)
+
+		_, err := db.CreatePost(context.Background(), database.CreatePostParams{
+			ID: 	    uuid.New(),
+			CreatedAt:  time.Now().UTC(),
+			UpdatedAt:  time.Now().UTC(),
+			Title:      item.Title,
+			Url:        feedData.Channel.Link,
+			Description:item.Description,
+			PublishedAt: pubTime,
+			FeedID: uuid.NullUUID{UUID: feed.ID, Valid: true},
+		})
+		if err != nil {
+			fmt.Printf("couldn't create post: %v", err)
+			continue
+		}
 	}
+	log.Println("======================================================")
 	log.Printf("Feed %s collected, %v posts found", feed.Name, len(feedData.Channel.Item))
+	log.Println("======================================================")
 }
